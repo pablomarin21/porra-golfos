@@ -24,16 +24,18 @@
   <div>
     <div class="g">G</div>
     <h1>La Porra de los Golfos</h1>
-    <p id="estado">Buscando la puerta abierta…</p>
+    <p id="estado">Abriendo la porra…</p>
     <div id="manual" class="oculto">
-      <a href="https://ventures-consider-explained-min.trycloudflare.com/login?c=CHAMPIONS27">Entrar (puerta 1)</a>
-      <a href="https://guests-invited-seniors-relationships.trycloudflare.com/login?c=CHAMPIONS27">Entrar (puerta 2)</a>
+      <a href="https://ventures-consider-explained-min.trycloudflare.com/login?c=CHAMPIONS27">Entrar por la puerta 1</a>
+      <a href="https://guests-invited-seniors-relationships.trycloudflare.com/login?c=CHAMPIONS27">Entrar por la puerta 2</a>
       <small>Si una no va, prueba la otra.</small>
     </div>
   </div>
 <script>
-// Hay dos túneles hacia la porra. Se prueban los dos a la vez y se entra por
-// el primero que conteste: así, si uno se cae, no te enteras.
+// La porra tiene DOS puertas (dos túneles). Se prueban las dos a la vez
+// cargando una imagen de cada una: la que responda primero, por ahí se entra.
+// Se usa una imagen y no una petición normal porque el navegador no deja
+// consultar otro dominio desde esta página, pero cargar imágenes sí.
 (function () {
   var puertas = ["https://ventures-consider-explained-min.trycloudflare.com", "https://guests-invited-seniors-relationships.trycloudflare.com"];
   var ido = false;
@@ -42,19 +44,17 @@
     location.replace(u + "/login?c=CHAMPIONS27");
   }
   puertas.forEach(function (u) {
-    var ctrl = new AbortController();
-    setTimeout(function () { ctrl.abort(); }, 6000);
-    fetch(u + "/api/public", { signal: ctrl.signal, cache: "no-store", mode: "cors" })
-      .then(function (r) { if (r.ok) entra(u); })
-      .catch(function () {});
+    var img = new Image();
+    img.onload = function () { entra(u); };
+    img.onerror = function () { /* esa puerta está cerrada */ };
+    img.src = u + "/icons/icon-192.png?p=" + Date.now();
   });
-  // Si en 7 segundos no contestó ninguna, que el golfo elija a mano.
   setTimeout(function () {
     if (ido) return;
     document.getElementById("estado").textContent =
       "La porra tarda en responder. Prueba una de las dos puertas:";
     document.getElementById("manual").className = "";
-  }, 7000);
+  }, 8000);
 })();
 </script>
 </body>
