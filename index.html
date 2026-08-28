@@ -5,6 +5,9 @@
 <title>La Porra de los Golfos</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
+<!-- La porra ya vive en Vercel: encendida siempre y sin túneles. -->
+<meta http-equiv="refresh" content="0; url=https://porra-golfos-app.vercel.app/login?c=CHAMPIONS27">
+<link rel="canonical" href="https://porra-golfos-app.vercel.app/">
 <style>
   html,body{height:100%;margin:0;background:#04081A;color:#F2F4F8;
     font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -15,47 +18,18 @@
   h1{font-size:22px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
   p{color:#A7B0C6;font-size:14px;margin:0 0 18px}
   a{display:inline-block;background:linear-gradient(180deg,#00D4FF,#0396C4);color:#04081A;
-    font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:4px}
+    font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px}
   small{display:block;margin-top:22px;color:#6B7590;font-size:12px}
-  .oculto{display:none}
 </style>
 </head>
 <body>
   <div>
     <div class="g">G</div>
     <h1>La Porra de los Golfos</h1>
-    <p id="estado">Abriendo la porra…</p>
-    <div id="manual" class="oculto">
-      <a href="https://wolf-relationship-inform-moving.trycloudflare.com/login?c=CHAMPIONS27">Entrar por la puerta 1</a>
-      <a href="https://guests-invited-seniors-relationships.trycloudflare.com/login?c=CHAMPIONS27">Entrar por la puerta 2</a>
-      <small>Si una no va, prueba la otra.</small>
-    </div>
+    <p>Entrando…</p>
+    <a id="ir" href="https://porra-golfos-app.vercel.app/login?c=CHAMPIONS27">Entrar a la porra</a>
+    <small>Si no entra sola, toca el botón.</small>
   </div>
-<script>
-// La porra tiene DOS puertas (dos túneles). Se prueban las dos a la vez
-// cargando una imagen de cada una: la que responda primero, por ahí se entra.
-// Se usa una imagen y no una petición normal porque el navegador no deja
-// consultar otro dominio desde esta página, pero cargar imágenes sí.
-(function () {
-  var puertas = ["https://wolf-relationship-inform-moving.trycloudflare.com", "https://guests-invited-seniors-relationships.trycloudflare.com"];
-  var ido = false;
-  function entra(u) {
-    if (ido) return; ido = true;
-    location.replace(u + "/login?c=CHAMPIONS27");
-  }
-  puertas.forEach(function (u) {
-    var img = new Image();
-    img.onload = function () { entra(u); };
-    img.onerror = function () { /* esa puerta está cerrada */ };
-    img.src = u + "/icons/icon-192.png?p=" + Date.now();
-  });
-  setTimeout(function () {
-    if (ido) return;
-    document.getElementById("estado").textContent =
-      "La porra tarda en responder. Prueba una de las dos puertas:";
-    document.getElementById("manual").className = "";
-  }, 8000);
-})();
-</script>
+  <script>location.replace(document.getElementById('ir').href);</script>
 </body>
 </html>
