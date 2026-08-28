@@ -5,9 +5,6 @@
 <title>La Porra de los Golfos</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex">
-<!-- El destino lo actualiza solo el supervisor cuando cambia el túnel. -->
-<meta http-equiv="refresh" content="0; url=https://pam-arctic-promotes-barbie.trycloudflare.com/login?c=CHAMPIONS27">
-<link rel="canonical" href="https://pam-arctic-promotes-barbie.trycloudflare.com/login?c=CHAMPIONS27">
 <style>
   html,body{height:100%;margin:0;background:#04081A;color:#F2F4F8;
     font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -18,18 +15,47 @@
   h1{font-size:22px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
   p{color:#A7B0C6;font-size:14px;margin:0 0 18px}
   a{display:inline-block;background:linear-gradient(180deg,#00D4FF,#0396C4);color:#04081A;
-    font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px}
+    font-weight:700;text-decoration:none;padding:12px 22px;border-radius:10px;margin:4px}
   small{display:block;margin-top:22px;color:#6B7590;font-size:12px}
+  .oculto{display:none}
 </style>
 </head>
 <body>
   <div>
     <div class="g">G</div>
     <h1>La Porra de los Golfos</h1>
-    <p>Entrando en la porra…</p>
-    <a id="ir" href="https://pam-arctic-promotes-barbie.trycloudflare.com/login?c=CHAMPIONS27">Entrar a la porra</a>
-    <small>Si no entra sola, toca el botón.</small>
+    <p id="estado">Buscando la puerta abierta…</p>
+    <div id="manual" class="oculto">
+      <a href="https://ventures-consider-explained-min.trycloudflare.com/login?c=CHAMPIONS27">Entrar (puerta 1)</a>
+      <a href="https://guests-invited-seniors-relationships.trycloudflare.com/login?c=CHAMPIONS27">Entrar (puerta 2)</a>
+      <small>Si una no va, prueba la otra.</small>
+    </div>
   </div>
-  <script>location.replace(document.getElementById('ir').href);</script>
+<script>
+// Hay dos túneles hacia la porra. Se prueban los dos a la vez y se entra por
+// el primero que conteste: así, si uno se cae, no te enteras.
+(function () {
+  var puertas = ["https://ventures-consider-explained-min.trycloudflare.com", "https://guests-invited-seniors-relationships.trycloudflare.com"];
+  var ido = false;
+  function entra(u) {
+    if (ido) return; ido = true;
+    location.replace(u + "/login?c=CHAMPIONS27");
+  }
+  puertas.forEach(function (u) {
+    var ctrl = new AbortController();
+    setTimeout(function () { ctrl.abort(); }, 6000);
+    fetch(u + "/api/public", { signal: ctrl.signal, cache: "no-store", mode: "cors" })
+      .then(function (r) { if (r.ok) entra(u); })
+      .catch(function () {});
+  });
+  // Si en 7 segundos no contestó ninguna, que el golfo elija a mano.
+  setTimeout(function () {
+    if (ido) return;
+    document.getElementById("estado").textContent =
+      "La porra tarda en responder. Prueba una de las dos puertas:";
+    document.getElementById("manual").className = "";
+  }, 7000);
+})();
+</script>
 </body>
 </html>
